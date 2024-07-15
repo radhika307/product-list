@@ -21,10 +21,14 @@ const ProductList = () => {
 
   return (
     <>
-      <div>
+      <div className="flex flex-wrap justify-between h-12 p-4 m-4 font-bold text-blue-600 text-2xl">
+        <h3>The wait is over—our sale starts today!</h3>
+        <button>Add Item</button>
+      </div>
+      <div className="flex flex-wrap">
         {products?.length > 0 &&
           products.map((product) => {
-            return <ProductCard props={product} />;
+            return <ProductCard key={product.id} props={product} />;
           })}
       </div>
     </>
