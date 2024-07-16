@@ -15,8 +15,7 @@ In the project directory, you can run:
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Learn More
+## About the application
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Used dummy-json API for listing and deleting the products.
+2. Used tailwind CSS for styling.

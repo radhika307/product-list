@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { GET_PRODUCTS } from "../api/productListApi";
 import ProductCard from "./ProductCard";
+import { DISPLAY_HEADING, NEW_CARD_IMG } from "../utils/constants";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getProducts();
   }, []);
 
   const getProducts = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(GET_PRODUCTS);
       const jsonProducts = await response.json();
@@ -17,6 +20,7 @@ const ProductList = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const removeProductFromList = (id) => {
@@ -28,6 +32,7 @@ const ProductList = () => {
   };
 
   const deleteProduct = async (id) => {
+    setIsLoading(true);
     try {
       const response = await fetch(`${GET_PRODUCTS}/${id}`, {
         method: "DELETE",
@@ -39,6 +44,7 @@ const ProductList = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const handleId = (e) => {
@@ -46,44 +52,53 @@ const ProductList = () => {
   };
 
   const addProduct = () => {
+    setIsLoading(true);
     const productCopy = [...products];
     productCopy.push({
-      id: "id",
+      id: "",
       title: "New Product",
-      images: [
-        "https://cdn2.hubspot.net/hub/215841/file-3945428210-jpg/blog-files/new-product-blog-602x347pix.jpg",
-      ],
-      price: "price",
-      discountPercentage: "discount%",
+      images: [`${NEW_CARD_IMG}`],
+      price: "",
+      discountPercentage: "",
     });
     setProducts(productCopy);
+    setIsLoading(false);
   };
 
   return (
     <>
-      <div className="flex flex-wrap justify-between h-12 p-4 m-6 font-bold text-blue-600">
-        <p className="text-3xl">The wait is over—our sale starts today!</p>
-        <div className="text-xl">
-          <button
-            className="text-white bg-blue-600 px-2 rounded-md"
-            onClick={addProduct}
-          >
-            Add Item
-          </button>
+      {isLoading && (
+        <div className="text-2xl font-bold m-4">
+          <p>Please wait while we process your request...</p>
         </div>
-      </div>
-      <div className="flex flex-wrap">
-        {products?.length > 0 &&
-          products.map((product) => {
-            return (
-              <ProductCard
-                key={product.id}
-                props={product}
-                handleId={handleId}
-              />
-            );
-          })}
-      </div>
+      )}
+      {!isLoading && (
+        <>
+          <div className="flex flex-wrap justify-between h-12 p-4 m-6 font-bold text-blue-600">
+            <p className="text-3xl">{DISPLAY_HEADING}</p>
+            <div className="text-xl">
+              <button
+                className="text-white bg-blue-600 px-2 rounded-md"
+                onClick={addProduct}
+              >
+                Add Item
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-wrap">
+            {products?.length > 0 &&
+              products.map((product) => {
+                return (
+                  <ProductCard
+                    key={product.id}
+                    props={product}
+                    handleId={handleId}
+                  />
+                );
+              })}
+          </div>
+        </>
+      )}
     </>
   );
 };
