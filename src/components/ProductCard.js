@@ -1,9 +1,16 @@
 import React from "react";
 
 const ProductCard = (product) => {
+  const { id, title, price, discountPercentage } = product.props;
+
   return (
     <div className="p-4 m-2 w-38 border">
-      <button className="float-right font-bold bg-red-300 p-2 rounded-sm">
+      <button
+        type="button"
+        value={id}
+        className="float-right font-bold bg-red-300 p-2 rounded-sm"
+        onClick={(e) => product.handleId(e)}
+      >
         X
       </button>
       <img
@@ -12,9 +19,9 @@ const ProductCard = (product) => {
         src={product.props.images[0]}
       />
       <div className="text-center">
-        <p className="ttext-bold">{product.props.title}</p>
-        <p>Price: {product.props.price}Rs</p>
-        <p>Discount: {product.props.discountPercentage}%</p>
+        <p className="ttext-bold">{title}</p>
+        <p>Price: {price}Rs</p>
+        <p>Discount: {discountPercentage}%</p>
       </div>
     </div>
   );
