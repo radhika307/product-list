@@ -10,6 +10,10 @@ This project can be accessed with (https://github.com/radhika307/product-list).
 
 In the project directory, you can run:
 
+### `npm install`
+
+To install required dependencies to run the application.
+
 ### `npm start`
 
 Runs the app in the development mode.
