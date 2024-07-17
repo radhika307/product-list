@@ -11,6 +11,7 @@ const ProductList = () => {
     getProducts();
   }, []);
 
+  //Get product API
   const getProducts = async () => {
     try {
       const response = await fetch(GET_PRODUCTS);
@@ -29,6 +30,7 @@ const ProductList = () => {
     setProducts(filteredProduct);
   };
 
+  //Delete product API
   const deleteProduct = async (id) => {
     try {
       const response = await fetch(`${GET_PRODUCTS}/${id}`, {
@@ -59,6 +61,7 @@ const ProductList = () => {
     setProducts(productCopy);
   };
 
+  //Early return
   if (!products) return null;
 
   return products.length === 0 ? (

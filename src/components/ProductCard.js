@@ -4,11 +4,11 @@ const ProductCard = (product) => {
   const { id, title, price, discountPercentage } = product.props;
 
   return (
-    <div className="p-4 m-4 w-38 rounded-lg transition ease-in-out delay-150 bg-red-100 hover:-translate-y-1 hover:scale-110 hover:bg-red-200 duration-300">
+    <div className="p-4 m-4 w-38 rounded-lg transition ease-in-out delay-150 bg-blue-100 hover:-translate-y-1 hover:scale-110 hover:bg-blue-200 duration-300">
       <button
         type="button"
         value={id}
-        className="float-right font-bold bg-red-400 p-2 rounded-sm"
+        className="float-right font-bold bg-red-300 p-2 rounded-sm"
         onClick={(e) => product.handleId(e)}
       >
         X
