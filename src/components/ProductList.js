@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { GET_PRODUCTS } from "../api/productListApi";
 import ProductCard from "./ProductCard";
+import Shimmer from "./ShimmerUI";
+import { DISPLAY_HEADING, NEW_CARD_IMG } from "../utils/constants";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -47,25 +49,27 @@ const ProductList = () => {
 
   const addProduct = () => {
     const productCopy = [...products];
-    productCopy.push({
-      id: "id",
+    productCopy.unshift({
+      id: "",
       title: "New Product",
-      images: [
-        "https://cdn2.hubspot.net/hub/215841/file-3945428210-jpg/blog-files/new-product-blog-602x347pix.jpg",
-      ],
-      price: "price",
-      discountPercentage: "discount%",
+      images: [`${NEW_CARD_IMG}`],
+      price: "",
+      discountPercentage: "",
     });
     setProducts(productCopy);
   };
 
-  return (
+  if (!products) return null;
+
+  return products.length === 0 ? (
+    <Shimmer />
+  ) : (
     <>
       <div className="flex flex-wrap justify-between h-12 p-4 m-6 font-bold text-blue-600">
-        <p className="text-3xl">The wait is over—our sale starts today!</p>
+        <p className="text-3xl">{DISPLAY_HEADING}</p>
         <div className="text-xl">
           <button
-            className="text-white bg-blue-600 px-2 rounded-md"
+            className="text-white px-2 rounded-md transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
             onClick={addProduct}
           >
             Add Item
