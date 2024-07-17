@@ -6,6 +6,10 @@ Displaying list of products with add and delete functions enabled. Built using R
 
 This project can be accessed with (https://github.com/radhika307/product-list).
 
+## node version: v21.5.0
+
+## npm version: 10.2.4
+
 ## Available Scripts
 
 In the project directory, you can run:
