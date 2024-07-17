@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { GET_PRODUCTS } from "../api/productListApi";
 import ProductCard from "./ProductCard";
+import Shimmer from "./ShimmerUI";
 import { DISPLAY_HEADING, NEW_CARD_IMG } from "../utils/constants";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getProducts();
   }, []);
 
   const getProducts = async () => {
-    setIsLoading(true);
     try {
       const response = await fetch(GET_PRODUCTS);
       const jsonProducts = await response.json();
@@ -20,7 +19,6 @@ const ProductList = () => {
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
   };
 
   const removeProductFromList = (id) => {
@@ -32,7 +30,6 @@ const ProductList = () => {
   };
 
   const deleteProduct = async (id) => {
-    setIsLoading(true);
     try {
       const response = await fetch(`${GET_PRODUCTS}/${id}`, {
         method: "DELETE",
@@ -44,7 +41,6 @@ const ProductList = () => {
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
   };
 
   const handleId = (e) => {
@@ -52,9 +48,8 @@ const ProductList = () => {
   };
 
   const addProduct = () => {
-    setIsLoading(true);
     const productCopy = [...products];
-    productCopy.push({
+    productCopy.unshift({
       id: "",
       title: "New Product",
       images: [`${NEW_CARD_IMG}`],
@@ -62,43 +57,37 @@ const ProductList = () => {
       discountPercentage: "",
     });
     setProducts(productCopy);
-    setIsLoading(false);
   };
 
-  return (
+  if (!products) return null;
+
+  return products.length === 0 ? (
+    <Shimmer />
+  ) : (
     <>
-      {isLoading && (
-        <div className="text-2xl font-bold m-4">
-          <p>Please wait while we process your request...</p>
+      <div className="flex flex-wrap justify-between h-12 p-4 m-6 font-bold text-blue-600">
+        <p className="text-3xl">{DISPLAY_HEADING}</p>
+        <div className="text-xl">
+          <button
+            className="text-white px-2 rounded-md transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+            onClick={addProduct}
+          >
+            Add Item
+          </button>
         </div>
-      )}
-      {!isLoading && (
-        <>
-          <div className="flex flex-wrap justify-between h-12 p-4 m-6 font-bold text-blue-600">
-            <p className="text-3xl">{DISPLAY_HEADING}</p>
-            <div className="text-xl">
-              <button
-                className="text-white bg-blue-600 px-2 rounded-md"
-                onClick={addProduct}
-              >
-                Add Item
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-wrap">
-            {products?.length > 0 &&
-              products.map((product) => {
-                return (
-                  <ProductCard
-                    key={product.id}
-                    props={product}
-                    handleId={handleId}
-                  />
-                );
-              })}
-          </div>
-        </>
-      )}
+      </div>
+      <div className="flex flex-wrap">
+        {products?.length > 0 &&
+          products.map((product) => {
+            return (
+              <ProductCard
+                key={product.id}
+                props={product}
+                handleId={handleId}
+              />
+            );
+          })}
+      </div>
     </>
   );
 };
